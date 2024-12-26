@@ -28,8 +28,8 @@ jobs:
             - name: Test the environment variables
               shell: bash
               env:
-                  GITHUB_AUTHOR_ENV: "${{ steps.set-env-variables.outputs.GITHUB_AUTHOR }}"
-                  GITHUB_PR_NUMBER_ENV: "${{ steps.set-env-variables.outputs.GITHUB_PR_NUMBER }}"
+                  GITHUB_AUTHOR_ENV: "$steps.set-env-variables.outputs.GITHUB_AUTHOR"
+                  GITHUB_PR_NUMBER_ENV: "$steps.set-env-variables.outputs.GITHUB_PR_NUMBER"
               run: |
                 echo "GitHub Author: $steps.set-env-variables.outputs.GITHUB_AUTHOR"
                 echo "GitHub PR Number: $steps.set-env-variables.outputs.GITHUB_PR_NUMBER"
