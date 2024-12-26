@@ -1,0 +1,38 @@
+name: GHA Playground Environment Tester
+run-name: GHA Playground Environment Tester
+
+on:
+    pull_request:
+        types:
+        - opened
+        - synchronize
+        - reopened
+
+jobs:
+    run-env-tester:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set Environment Variables
+              id: set-env-variables
+              shell: bash
+              run: |
+                AUTHOR="${{ github.event.pull_request.user.login }}"
+                PR_NUMBER="${{ github.event.pull_request.number }}"
+
+                echo "GITHUB_AUTHOR=$AUTHOR" >> $GITHUB_OUTPUT
+                echo "GITHUB_PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+            - name: Test the environment variables
+              shell: bash
+              env:
+                  GITHUB_AUTHOR_ENV: "${{ steps.set-env-variables.outputs.GITHUB_AUTHOR }}"
+                  GITHUB_PR_NUMBER_ENV: "${{ steps.set-env-variables.outputs.GITHUB_PR_NUMBER }}"
+              run: |
+                echo "GitHub Author: $steps.set-env-variables.outputs.GITHUB_AUTHOR"
+                echo "GitHub PR Number: $steps.set-env-variables.outputs.GITHUB_PR_NUMBER"
+
+                echo "GitHub Author Env: $GITHUB_AUTHOR_ENV"
+                echo "GitHub PR Number Env: $GITHUB_PR_NUMBER_ENV"
